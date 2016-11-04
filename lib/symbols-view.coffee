@@ -35,11 +35,11 @@ class SymbolsView extends SelectListView
     @cancel()
     @panel.destroy()
 
-  getFilterKey: -> 'name'
+  getFilterKey: -> 'file'
 
   viewForItem: ({position, name, file, directory}) ->
     # Style matched characters in search results
-    matches = match(name, @getFilterQuery())
+    matches = match(file, @getFilterQuery())
 
     if atom.project.getPaths().length > 1
       file = path.join(path.basename(directory), file)
@@ -49,8 +49,8 @@ class SymbolsView extends SelectListView
         if position?
           @div "#{name}:#{position.row + 1}", class: 'primary-line'
         else
-          @div class: 'primary-line', => SymbolsView.highlightMatches(this, name, matches)
-        @div file, class: 'secondary-line'
+          @div name, class: 'primary-line'
+        @div class: 'secondary-line', => SymbolsView.highlightMatches(this, file, matches)
 
   getEmptyMessage: (itemCount) ->
     if itemCount is 0
